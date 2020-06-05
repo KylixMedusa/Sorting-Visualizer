@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Bubble sort</title>
+        <style>
+            body{
+                margin:0;
+                background-color: #cfced6;
+                text-align: center;
+            }
+            .wrapper{
+                width: max-content;
+                margin-top: 50px;
+                margin-left: 50%;
+                transform: translateX(-50%);
+                padding: 20px 30px 0px 30px;
+                border-radius: 20px;
+                background-image: linear-gradient(145deg,#eeecf3, #cacbd8);
+                box-shadow: 12px 12px 24px #b5b6c4, -12px -12px 24px #ffffff;
+                
+            }
+            .wrapper:after{
+                content:'';
+                display: block;
+                height:3px;
+                border-radius: 2.5px;
+                width:100%;
+                background-color: rgb(54, 54, 54);
+                transform: translateY(-5px);
+            }
+            .bar{
+                display:inline-flex;
+                width:20px;
+                margin: 0 2px 0 2px;
+                border-radius: 5px 5px 0px 0px;
+                background-color: black;
+            }
+            button{
+                border-radius: 50px;
+                font-size: 1.25rem;
+                padding:15px;
+                margin-top:30px;
+                border: none;
+                background-image: linear-gradient(145deg,#ffffff ,#cacbd8);
+                box-shadow: 6px 6px 15px #b5b6c4, -6px -6px 15px #ffffff;
+                color: rgb(80, 80, 80);
+                transition: all 0.3s ease-in-out;
+            }
+            button:hover{
+                color:rgb(89, 89, 255);
+            }
+            button:focus{
+                background-color: #cfced6;
+                background-image: none;
+                box-shadow:inset 6px 6px 15px #b5b6c4,inset -6px -6px 15px #ffffff;
+                outline:0;
+                color:rgb(89, 89, 255);
+                text-shadow: 0 0 10px rgb(147, 147, 255);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="wrap" class="wrapper"></div>
+        <button onclick="bubblesort()">Bubble Sort</button>
+        
+        
+        <script type="text/javascript">
+            var values=new Array(10);
+            for(var k=0; k<values.length; k++)
+                values[k] = Math.floor(Math.random()*300)+100;
+            for(var add=0;add<values.length;add++)
+            {
+                var bar = document.createElement("div");
+                bar.setAttribute("class","bar");
+                bar.style.height=String(values[add])+"px";
+                //bar.style.order=String(add);
+                document.getElementById('wrap').appendChild(bar);
+            }
+            var wrapper=document.getElementById('wrap');
+            function bubblesort()
+            {   
+                /*for(var i=0; i< values.length-1;i++)
+                {
+                    for(var j=0; j<values.length-1-i ;j++)
+                    {
+                        if(wrapper.childNodes[j].style.height>wrapper.childNodes[j+1].style.height)
+                        {
+                            var node=wrapper.childNodes[j];
+                            wrapper.removeChild(wrapper.childNodes[j]);
+                            wrapper.insertBefore(node,wrapper.childNodes[j+1]);
+                        }
+                    }
+                }*/
+                    var j=0;
+                    var i=0;
+                    var animate = setInterval(function(){
+                        if(j!=0)
+                        {
+                            wrapper.childNodes[j-1].style.backgroundColor="black";
+                        }
+                        if(wrapper.childNodes[j].style.height>wrapper.childNodes[j+1].style.height)
+                        {
+                            wrapper.childNodes[j].style.backgroundColor="red";
+                            wrapper.childNodes[j+1].style.backgroundColor="red";
+                            var node=wrapper.childNodes[j];
+                            wrapper.removeChild(wrapper.childNodes[j]);
+                            wrapper.insertBefore(node,wrapper.childNodes[j+1]);
+                        }
+                        else
+                        {
+                            wrapper.childNodes[j].style.backgroundColor="green";
+                            wrapper.childNodes[j+1].style.backgroundColor="green";
+                        }
+                        j=j+1;
+                        if(j==(values.length-1-i))
+                        {
+                            wrapper.childNodes[j].style.backgroundColor="blue";
+                            wrapper.childNodes[j-1].style.backgroundColor="black";
+                            j=0;
+                            i=i+1;
+                        }
+                        if(i==(values.length-1))
+                        {
+                            wrapper.childNodes[j].style.backgroundColor="blue";
+                            clearTimeout(animate);
+                        }
+                    },500);
+
+            }
+        </script>
+    </body>
+</html>
