@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Selection sort</title>
+        <style>
+            body{
+                margin:0;
+                background-color: #cfced6;
+                text-align: center;
+            }
+            .wrapper{
+                width: max-content;
+                margin-top: 50px;
+                margin-left: 50%;
+                transform: translateX(-50%);
+                padding: 20px 30px 0px 30px;
+                border-radius: 20px;
+                background-image: linear-gradient(145deg,#eeecf3, #cacbd8);
+                box-shadow: 12px 12px 24px #b5b6c4, -12px -12px 24px #ffffff;
+                
+            }
+            .wrapper:after{
+                content:'';
+                display: block;
+                height:3px;
+                border-radius: 2.5px;
+                width:100%;
+                background-color: rgb(54, 54, 54);
+                transform: translateY(-5px);
+            }
+            .bar{
+                display:inline-flex;
+                width:20px;
+                margin: 0 2px 0 2px;
+                border-radius: 5px 5px 0px 0px;
+                background-color: black;
+            }
+            button{
+                border-radius: 50px;
+                font-size: 1.25rem;
+                padding:15px;
+                margin-top:30px;
+                border: none;
+                background-image: linear-gradient(145deg,#ffffff ,#cacbd8);
+                box-shadow: 6px 6px 15px #b5b6c4, -6px -6px 15px #ffffff;
+                color: rgb(80, 80, 80);
+                transition: all 0.3s ease-in-out;
+            }
+            button:hover{
+                color:rgb(89, 89, 255);
+            }
+            button:focus{
+                background-color: #cfced6;
+                background-image: none;
+                box-shadow:inset 6px 6px 15px #b5b6c4,inset -6px -6px 15px #ffffff;
+                outline:0;
+                color:rgb(89, 89, 255);
+                text-shadow: 0 0 10px rgb(147, 147, 255);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="wrap" class="wrapper"></div>
+        <button onclick="selectionsort()">Selection Sort</button>
+        
+        
+        <script type="text/javascript">
+            var values=new Array(10);
+            for(var k=0; k<values.length; k++)
+                values[k] = Math.floor(Math.random()*300)+100;
+            for(var add=0;add<values.length;add++)
+            {
+                var bar = document.createElement("div");
+                bar.setAttribute("class","bar");
+                bar.style.height=String(values[add])+"px";
+                //bar.style.order=String(add);
+                document.getElementById('wrap').appendChild(bar);
+            }
+            var wrapper=document.getElementById('wrap');
+            function selectionsort(){
+                var i=0;
+                var j=i+1;
+                var minpos=i;
+                var animate = setInterval(function(){
+                    wrapper.childNodes[j-1].style.backgroundColor="black";
+                    wrapper.childNodes[values.length-1].style.backgroundColor="black";
+                    console.log(i+" "+j);
+                    if(wrapper.childNodes[j].style.height>wrapper.childNodes[minpos].style.height)
+                    {
+                        wrapper.childNodes[j].style.backgroundColor="red";
+                        wrapper.childNodes[i].style.backgroundColor="red";
+                    }
+                    else
+                    {
+                        wrapper.childNodes[j].style.backgroundColor="green";
+                        wrapper.childNodes[i].style.backgroundColor="green";
+                        minpos=j;
+                    }
+                    j=j+1;
+                    if(j==(values.length))
+                    {
+                        wrapper.childNodes[i].style.backgroundColor="blue";
+                        var temp = wrapper.childNodes[i].style.height;
+                        wrapper.childNodes[i].style.height = wrapper.childNodes[minpos].style.height;
+                        wrapper.childNodes[minpos].style.height = String(temp);
+                        i=i+1;
+                        j=i+1;
+                        minpos=i;
+                    }
+                    if(i==(values.length-1))
+                    {
+                        wrapper.childNodes[i].style.backgroundColor="blue";
+                        clearTimeout(animate);
+                    }
+                },500);
+
+            }
+        </script>
+    </body>
+</html>
