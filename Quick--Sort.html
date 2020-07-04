@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Quick sort</title>
+        <style>
+            body{
+                margin:0;
+                background-color: #cfced6;
+                text-align: center;
+            }
+            .wrapper{
+                width: max-content;
+                margin-top: 50px;
+                margin-left: 50%;
+                transform: translateX(-50%);
+                padding: 20px 30px 0px 30px;
+                border-radius: 20px;
+                background-image: linear-gradient(145deg,#eeecf3, #cacbd8);
+                box-shadow: 12px 12px 24px #b5b6c4, -12px -12px 24px #ffffff;
+                
+            }
+            .wrapper:after{
+                content:'';
+                display: block;
+                height:3px;
+                border-radius: 2.5px;
+                width:100%;
+                background-color: rgb(54, 54, 54);
+                transform: translateY(-5px);
+            }
+            .bar{
+                display:inline-flex;
+                width:20px;
+                margin: 0 2px 0 2px;
+                border-radius: 5px 5px 0px 0px;
+                background-color: black;
+            }
+            button{
+                border-radius: 50px;
+                font-size: 1.25rem;
+                padding:15px;
+                margin-top:30px;
+                border: none;
+                background-image: linear-gradient(145deg,#ffffff ,#cacbd8);
+                box-shadow: 6px 6px 15px #b5b6c4, -6px -6px 15px #ffffff;
+                color: rgb(80, 80, 80);
+                transition: all 0.3s ease-in-out;
+            }
+            button:hover{
+                color:rgb(89, 89, 255);
+            }
+            button:focus{
+                background-color: #cfced6;
+                background-image: none;
+                box-shadow:inset 6px 6px 15px #b5b6c4,inset -6px -6px 15px #ffffff;
+                outline:0;
+                color:rgb(89, 89, 255);
+                text-shadow: 0 0 10px rgb(147, 147, 255);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="wrap" class="wrapper"></div>
+        <button onclick="quicksort()">Quick Sort</button>
+        
+        
+        <script type="text/javascript">
+            var values=new Array(10);
+            for(var k=0; k<values.length; k++)
+                values[k] = Math.floor(Math.random()*300)+100;
+            for(var add=0;add<values.length;add++)
+            {
+                var bar = document.createElement("div");
+                bar.setAttribute("class","bar");
+                bar.style.height=String(values[add])+"px";
+                //bar.style.order=String(add);
+                document.getElementById('wrap').appendChild(bar);
+            }
+            var arr = values;
+            var wrapper=document.getElementById('wrap');
+            function quicksort(){
+                console.log(arr);
+                
+                sort(0,values.length-1);
+                console.log(arr);
+            }
+            async function partition(low, high) 
+            { 
+                var pivot = arr[high]; 
+                wrapper.childNodes[high].style.backgroundColor="purple"; 
+                var i = (low-1); // index of smaller element 
+                for (var j=low; j<high; j++) 
+                { 
+                    
+                    // If current element is smaller than the pivot 
+                    if (arr[j] < pivot) 
+                    { 
+                        i++; 
+                        wrapper.childNodes[j].style.backgroundColor="red";
+                        wrapper.childNodes[i].style.backgroundColor="red";
+                        // swap arr[i] and arr[j] 
+                        await swap(i,j);
+                        wrapper.childNodes[j].style.backgroundColor="black";
+                        wrapper.childNodes[i].style.backgroundColor="black";
+                    } 
+                    else{
+                        wrapper.childNodes[j].style.backgroundColor="green";
+                        await new Promise(r => setTimeout(r, 500));
+                        wrapper.childNodes[j].style.backgroundColor="black";
+                    }
+                } 
+                // swap arr[i+1] and arr[high] (or pivot) 
+                wrapper.childNodes[high].style.backgroundColor="red";
+                wrapper.childNodes[i+1].style.backgroundColor="red"; 
+                await swap(i+1,high);
+                wrapper.childNodes[high].style.backgroundColor="black";
+                wrapper.childNodes[i+1].style.backgroundColor="blue"; 
+                return i+1; 
+            } 
+        
+        
+            /* The main function that implements QuickSort() 
+            arr[] --> Array to be sorted, 
+            low  --> Starting index, 
+            high  --> Ending index */
+            async function sort(low, high) 
+            { 
+                if (low < high) 
+                { 
+                    /* pi is partitioning index, arr[pi] is  
+                    now at right place */
+                    var pi =await partition(low, high); 
+        
+                    // Recursively sort elements before 
+                    // partition and after partition 
+                    await Promise.all([sort(low, pi-1),sort(pi+1, high)]);
+                    
+                } 
+                else{
+                    var c=0;
+                    for(let i=0;i<values.length-1;i++){
+                        if(arr[i]<arr[i+1])
+                            c++;
+                        else{
+                            c=-1;
+                            break;
+                        }
+                    }
+                    if(c!=-1){
+                        await new Promise(r => setTimeout(r, 1000));
+                        for(let index in values){
+                            wrapper.childNodes[index].style.backgroundColor="blue";
+                        }
+                    }
+                }
+            } 
+            async function swap(i,high){
+                await new Promise(r => setTimeout(r, 500));
+                var temp = arr[i]; 
+                wrapper.childNodes[i].style.height = String(arr[high])+"px" ;
+                arr[i] = arr[high];
+                wrapper.childNodes[high].style.height = String(temp)+"px" ; 
+                arr[high] = temp;
+            }
+
+        </script>
+    </body>
+</html>

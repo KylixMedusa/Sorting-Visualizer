@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Heap sort</title>
+        <style>
+            body{
+                margin:0;
+                background-color: #cfced6;
+                text-align: center;
+            }
+            .wrapper{
+                width: max-content;
+                margin-top: 50px;
+                margin-left: 50%;
+                transform: translateX(-50%);
+                padding: 20px 30px 0px 30px;
+                border-radius: 20px;
+                background-image: linear-gradient(145deg,#eeecf3, #cacbd8);
+                box-shadow: 12px 12px 24px #b5b6c4, -12px -12px 24px #ffffff;
+                
+            }
+            .wrapper:after{
+                content:'';
+                display: block;
+                height:3px;
+                border-radius: 2.5px;
+                width:100%;
+                background-color: rgb(54, 54, 54);
+                transform: translateY(-5px);
+            }
+            .bar{
+                display:inline-flex;
+                width:20px;
+                margin: 0 2px 0 2px;
+                border-radius: 5px 5px 0px 0px;
+                background-color: black;
+            }
+            button{
+                border-radius: 50px;
+                font-size: 1.25rem;
+                padding:15px;
+                margin-top:30px;
+                border: none;
+                background-image: linear-gradient(145deg,#ffffff ,#cacbd8);
+                box-shadow: 6px 6px 15px #b5b6c4, -6px -6px 15px #ffffff;
+                color: rgb(80, 80, 80);
+                transition: all 0.3s ease-in-out;
+            }
+            button:hover{
+                color:rgb(89, 89, 255);
+            }
+            button:focus{
+                background-color: #cfced6;
+                background-image: none;
+                box-shadow:inset 6px 6px 15px #b5b6c4,inset -6px -6px 15px #ffffff;
+                outline:0;
+                color:rgb(89, 89, 255);
+                text-shadow: 0 0 10px rgb(147, 147, 255);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="wrap" class="wrapper"></div>
+        <button onclick="heapsort()">Heap Sort</button>
+        
+        
+        <script type="text/javascript">
+            var values=new Array(10);
+            for(var k=0; k<values.length; k++)
+                values[k] = Math.floor(Math.random()*300)+100;
+            for(var add=0;add<values.length;add++)
+            {
+                var bar = document.createElement("div");
+                bar.setAttribute("class","bar");
+                bar.style.height=String(values[add])+"px";
+                //bar.style.order=String(add);
+                document.getElementById('wrap').appendChild(bar);
+            }
+            var arr = values;
+            var wrapper=document.getElementById('wrap');
+            function heapsort(){
+                console.log(arr);
+                sort();
+                console.log(arr);
+            }
+            async function sort() 
+            { 
+                var n = arr.length; 
+
+                // Build heap (rearrange array) 
+                for (var i = n / 2 - 1; i >= 0; i--) 
+                    await heapify(n, i); 
+
+                // One by one extract an element from heap 
+                for (var i=n-1; i>0; i--) 
+                { 
+                    wrapper.childNodes[0].style.backgroundColor="red";
+                    wrapper.childNodes[i].style.backgroundColor="red";
+                    // Move current root to end 
+                    await swap(0,i);
+                    wrapper.childNodes[0].style.backgroundColor="black";
+                    wrapper.childNodes[i].style.backgroundColor="blue";
+                    // call max heapify on the reduced heap 
+                    await heapify(i, 0); 
+                    if(i==1){
+                        wrapper.childNodes[0].style.backgroundColor="blue";
+                    }
+                } 
+            } 
+
+            // To heapify a subtree rooted with node i which is 
+            // an index in arr[]. n is size of heap 
+            async function heapify(n, i) 
+            { 
+                var largest = i; // Initialize largest as root 
+                var l = 2*i + 1; // left = 2*i + 1 
+                var r = 2*i + 2; // right = 2*i + 2 
+
+                // If left child is larger than root 
+                if (l < n && arr[l] > arr[largest]) 
+                    largest = l; 
+
+                // If right child is larger than largest so far 
+                if (r < n && arr[r] > arr[largest]) 
+                    largest = r; 
+
+                // If largest is not root 
+                if (largest != i) 
+                { 
+                    wrapper.childNodes[largest].style.backgroundColor="red";
+                    wrapper.childNodes[i].style.backgroundColor="red";
+                    await swap(i,largest);
+                    wrapper.childNodes[largest].style.backgroundColor="black";
+                    wrapper.childNodes[i].style.backgroundColor="black";
+                    // Recursively heapify the affected sub-tree 
+                    await heapify(n, largest); 
+                } 
+                else{
+                    wrapper.childNodes[largest].style.backgroundColor="green";
+                    await new Promise(r => setTimeout(r, 500));
+                    wrapper.childNodes[largest].style.backgroundColor="black";
+                }
+            } 
+            async function swap(i,high){
+                await new Promise(r => setTimeout(r, 500));
+                var temp = arr[i]; 
+                wrapper.childNodes[i].style.height = String(arr[high])+"px" ;
+                arr[i] = arr[high];
+                wrapper.childNodes[high].style.height = String(temp)+"px" ; 
+                arr[high] = temp;
+            }
+
+        </script>
+    </body>
+</html>
